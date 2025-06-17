@@ -22,9 +22,9 @@ with app.app_context():
 @app.route('/registro',methods=['GET','POST'])
 def registro():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        passwordr = request.form.get('passwordr')
+        username = request.form.get('username').strip()
+        password = request.form.get('password').strip()
+        passwordr = request.form.get('passwordr').strip()
 
         #Validaciones
         if len(username) < 6:
@@ -93,8 +93,8 @@ def tareas():
         return redirect(url_for('login'))
     
     if request.method == 'POST':
-        titulo = request.form['titulo']
-        descripcion = request.form['descripcion']
+        titulo = request.form['titulo'].strip()
+        descripcion = request.form['descripcion'].strip()
         
         if titulo == "" or descripcion == "":
             flash("Debe completar ambos campos","danger")
@@ -156,8 +156,8 @@ def actualizar_tarea(id):
         return redirect(url_for('tareas'))
 
     if request.method == 'POST':
-        titulo = request.form['titulo']
-        descripcion = request.form['descripcion']
+        titulo = request.form['titulo'].strip()
+        descripcion = request.form['descripcion'].strip()
 
         if titulo == "" or descripcion == "":
             flash("Debe completar ambos campos", "danger")

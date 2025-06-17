@@ -107,8 +107,11 @@ def tareas():
         db.session.add(tarea)
         db.session.commit()
         flash("Tarea agregada","success")
-            
-    return render_template('tareas.html',logged_in=True,username=session['username'])
+    
+    #Buscar tareas que ingreso el usuario
+    tareas = Tareas.query.filter_by(user_id=session['user_id']).all()
+
+    return render_template('tareas.html',logged_in=True,username=session['username'],tareas=tareas)
 
 @app.route('/about')
 def about():

@@ -86,7 +86,7 @@
                 <th scope="row">{{tarea['titulo']}}</th>
                 <td><a class="btn btn-primary" href="#">Actualizar</a></td>
                 <td>
-                    <form action="#" method="POST" style="display:inline;">
+                    <form action="{{ url_for('borrar_tarea', id=tarea['id']) }}" method="POST" style="display:inline;">
                     <button class="btn btn-danger" type="submit">Borrar</button>
                 </form>
                 </td>

@@ -113,6 +113,32 @@ def tareas():
 
     return render_template('tareas.html',logged_in=True,username=session['username'],tareas=tareas)
 
+@app.route('/borrar/<int:id>',methods=['POST'])
+def borrar_tarea(id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    # Buscar la tarea por ID
+    tarea = Tareas.query.get(id)
+
+    # Verificar que la tarea exista
+    if not tarea:
+        flash("La tarea no existe", "danger")
+        return redirect(url_for('tareas'))
+
+    # Verificar que el usuario sea el dueño de la tarea a borrar
+    if tarea.user_id != session['user_id']:
+        flash("No tienes permiso para borrar esta tarea", "danger")
+        return redirect(url_for('tareas'))
+
+    # Si todo está bien, borrar la tarea
+    db.session.delete(tarea)
+    db.session.commit()
+    flash("Tarea eliminada correctamente", "success")
+    return redirect(url_for('tareas'))
+
+
+
 @app.route('/about')
 def about():
     return render_template('about.html',logged_in=True)

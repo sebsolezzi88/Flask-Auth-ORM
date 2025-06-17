@@ -92,14 +92,16 @@ def tareas():
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
-    return render_template('tareas.html',username=session['username'])
+    return render_template('tareas.html',logged_in=True,username=session['username'])
 
 @app.route('/about')
-def abour():
-    return render_template('about.html')
+def about():
+    return render_template('about.html',logged_in=True)
 
-
-
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)

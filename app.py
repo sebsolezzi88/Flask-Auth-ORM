@@ -16,6 +16,10 @@ def registro():
 def login():
     return render_template('login.html')
 
+@app.route('/about')
+def abour():
+    return render_template('about.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,10 +1,16 @@
-from flask import Flask
+import os
+from dotenv import load_dotenv
+from flask import Flask,render_template
 
-app = Flask('__name__')
+#Cargar variable de entorno
+load_dotenv()
 
-app.route('/registro')
+app = Flask(__name__)
+app.secret_key = os.environ.get('SECRET_KEY')
+
+@app.route('/registro')
 def registro():
-    return 'registro'
+    return render_template('registro.html')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,23 @@
+{% extends 'base.html'%}
+
+{% block content %}
+   <div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 mx-auto mt-5">
+            <form class="border border-3 border-primary rounded p-4 shadow-lg">
+                <legend class="text-center text-uppercase">Login</legend>
+                <div class="form-group mb-3">
+                    <label class="text-uppercase" for="exampleInputEmail1">Username</label>
+                    <input autocomplete="false" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Tu username">
+
+                </div>
+                <div class="form-group mb-3">
+                    <label class="text-uppercase for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Tu Password">
+                </div>
+                <button type="submit" class="btn btn-primary  text-uppercase d-block mx-auto">LogIn</button>
+                </form>
+        </div>
+    </div>
+   </div>
+{% endblock %}

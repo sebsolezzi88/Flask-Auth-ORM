@@ -46,6 +46,11 @@ def registro():
         db.session.add(user)
         db.session.commit()
 
+        #Redirigir al Login
+        flash('Registro exitoso. Ya puedes iniciar sesión.', 'success')
+        return redirect(url_for('login'))
+
+
     return render_template('registro.html')
 
 

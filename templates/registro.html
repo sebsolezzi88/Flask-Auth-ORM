@@ -9,12 +9,12 @@
                     {% for category, mensaje in messages %}
                         <div class="alert alert-dismissible alert-{{category}}">
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            <strong>Error!</strong> <p class="text-white fw-bold">{{mensaje}}</p>
+                            <strong>{{category}}</strong> <p class="text-white fw-bold">{{mensaje}}</p>
                         </div>
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-            <form method="post" "border border-3 border-primary rounded p-4 shadow-lg">
+            <form method="post" class="border border-3 border-primary rounded p-4 shadow-lg">
                 <legend class="text-center text-uppercase">Registro</legend>
                 <div class="form-group mb-3">
                     <label class="text-uppercase" for="exampleInputEmail1">Username</label>

@@ -4,6 +4,16 @@
    <div class="container">
     <div class="row">
         <div class="col-12 col-md-6 mx-auto mt-5">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}   
+                    {% for category, mensaje in messages %}
+                        <div class="alert alert-dismissible alert-{{category}}">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <strong>{{category}}</strong> <p class="text-white fw-bold">{{mensaje}}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             <form class="border border-3 border-primary rounded p-4 shadow-lg">
                 <legend class="text-center text-uppercase">Login</legend>
                 <div class="form-group mb-3">

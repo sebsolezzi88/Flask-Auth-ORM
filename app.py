@@ -137,7 +137,41 @@ def borrar_tarea(id):
     flash("Tarea eliminada correctamente", "success")
     return redirect(url_for('tareas'))
 
+@app.route('/actualizar/<int:id>', methods=['GET', 'POST'])
+def actualizar_tarea(id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
 
+    # Buscar la tarea por ID
+    tarea = Tareas.query.get(id)
+
+    # Verificar que la tarea exista
+    if not tarea:
+        flash("La tarea no existe", "danger")
+        return redirect(url_for('tareas'))
+
+    # Verificar que el usuario sea el dueño de la tarea
+    if tarea.user_id != session['user_id']:
+        flash("No tienes permiso para modificar esta tarea", "danger")
+        return redirect(url_for('tareas'))
+
+    if request.method == 'POST':
+        titulo = request.form['titulo']
+        descripcion = request.form['descripcion']
+
+        if titulo == "" or descripcion == "":
+            flash("Debe completar ambos campos", "danger")
+            return redirect(url_for('actualizar_tarea', id=id))
+
+        # Actualizar los datos de la tarea
+        tarea.titulo = titulo
+        tarea.descripcion = descripcion
+        db.session.commit()
+
+        flash("Tarea actualizada correctamente", "success")
+        return redirect(url_for('tareas'))
+
+    return render_template('actualizar.html', tarea=tarea)
 
 @app.route('/about')
 def about():

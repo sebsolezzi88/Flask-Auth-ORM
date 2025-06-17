@@ -9,6 +9,17 @@
   <div class="row mt-5">
     <!-- Para el formulario -->
     <div class="col-12 col-md-6 mx-auto">
+         {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+            
+                  <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                      {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+               </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
       <form method="post" class="border border-1 border-info p-4 rounded">
         <legend class="text-uppercase text-center text-info">
           Actualice su Tarea
@@ -25,7 +36,7 @@
               name="titulo"
               placeholder="Tu tarea"
               autocomplete="off"
-              value=""
+              value="{{tarea['titulo']}}"
             />
           </div>
         </div>
@@ -39,7 +50,7 @@
             name="descripcion"
             id="descripcion"
             rows="3"
-          ></textarea>
+          >{{tarea['descripcion']}}</textarea>
         </div>
 
         <button

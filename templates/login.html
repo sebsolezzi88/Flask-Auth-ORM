@@ -14,11 +14,11 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-            <form class="border border-3 border-primary rounded p-4 shadow-lg">
+            <form method="post" class="border border-3 border-primary rounded p-4 shadow-lg">
                 <legend class="text-center text-uppercase">Login</legend>
                 <div class="form-group mb-3">
                     <label class="text-uppercase" for="exampleInputEmail1">Username</label>
-                    <input autocomplete="false" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Tu username">
+                    <input autocomplete="false" type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Tu username">
 
                 </div>
                 <div class="form-group mb-3">

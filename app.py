@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask,render_template, request,flash,redirect,url_for
-from werkzeug.security import generate_password_hash
+from flask import Flask,render_template, request,flash,redirect,url_for,session
+from werkzeug.security import generate_password_hash,check_password_hash
 from models import db,Users
 
 #Cargar variable de entorno
@@ -54,8 +54,36 @@ def registro():
     return render_template('registro.html')
 
 
-@app.route('/login')
+@app.route('/login',methods=['GET','POST'])
 def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        if  not username or not password:
+            flash('Debe completar todos los campos', 'danger')
+            return redirect(url_for('login'))
+        
+        #Verificar si el usuario esta en la base de datos
+        user = db.session.execute(
+            db.select(Users).filter_by(username=username)
+        ).scalar_one_or_none()
+
+        if user is None:
+            flash('Usuario no encontrado', 'danger')
+            return redirect(url_for('login'))
+
+        # Verificar contraseña
+        if not check_password_hash(user.password, password):
+            flash('Contraseña incorrecta', 'danger')
+            return redirect(url_for('login'))
+
+        # Iniciar sesión (almacenar en session)
+        session['user_id'] = user.id
+        session['username'] = user.username
+        flash('Has iniciado sesión con éxito', 'success')
+        return redirect(url_for('tareas'))  
+    
     return render_template('login.html')
 
 @app.route('/about')

@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask,render_template, request,flash,redirect,url_for,session
 from werkzeug.security import generate_password_hash,check_password_hash
-from models import db,Users
+from models import db,Users,Tareas
 
 #Cargar variable de entorno
 load_dotenv()
@@ -92,6 +92,22 @@ def tareas():
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
+    if request.method == 'POST':
+        titulo = request.form['titulo']
+        descripcion = request.form['descripcion']
+        
+        if titulo == "" or descripcion == "":
+            flash("Debe completar ambos campos","danger")
+            return redirect(url_for('tareas'))
+        
+        #Crear tarea para agregar a la base de datos
+        tarea = Tareas(titulo=titulo,
+                       descripcion=descripcion,
+                       user_id=session['user_id'])
+        db.session.add(tarea)
+        db.session.commit()
+        flash("Tarea agregada","success")
+            
     return render_template('tareas.html',logged_in=True,username=session['username'])
 
 @app.route('/about')

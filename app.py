@@ -86,9 +86,19 @@ def login():
     
     return render_template('login.html')
 
+@app.route('/tareas',methods=['GET','POST'])
+def tareas():
+    #Si no esta logeado se redirige
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    return render_template('tareas.html',username=session['username'])
+
 @app.route('/about')
 def abour():
     return render_template('about.html')
+
+
 
 
 if __name__ == '__main__':

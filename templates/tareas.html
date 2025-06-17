@@ -1,5 +1,102 @@
-{% extends 'base.html'%}
-
+{% extends "base.html" %} 
 {% block content %}
-    <h1>Sitio tareas</h1>
+
+<div class="container mt-5">
+  <div class="row">
+    <h3>Hola: <small>{{username}}</small></h3>
+  </div>
+
+  <div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+            
+                  <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                      {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+               </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+        </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <!-- Para el formulario -->
+    <div class="col-12 col-md-6">
+      <form method="post" class="border border-3 border-primary p-4 rounded shadow-lg">
+        <legend class="text-uppercase text-center">
+          Ingresa una nueva tarea
+        </legend>
+        <div class="row">
+          <div>
+            <label for="titulo" class="form-label mt-4 text-uppercase"
+              >Titulo</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="titulo"
+              name="titulo"
+              placeholder="Tu tarea"
+              autocomplete="off"
+              
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="exampleTextarea" class="text-uppercase form-label mt-4"
+            >Descripción</label
+          >
+          <textarea
+            class="form-control"
+            name="descripcion"
+            id="descripcion"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <button
+          class="btn btn-primary text-uppercase mt-4 d-block mx-auto"
+          type="submit"
+        >
+          Guardar
+        </button>
+      </form>
+    </div>
+
+    <!-- Para las tareas -->
+    <div class="col-12 col-md-6">
+        {% if tareas %}
+            <h4>Tareas Pendientes</h4>
+            <table class="table table-hover border border-1 border-info p-4">
+            <thead>
+                <tr>
+                    <th scope="col">Titulo</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>     
+                </tr>
+            </thead>
+            {% for tarea in tareas %}
+                <tr class="table-secondary border border-1 border-info p-4">
+                <th scope="row">{{tarea['titulo']}}</th>
+                <td><a class="btn btn-primary" href="{{ url_for('actulizar_tarea', id=tarea['id']) }}"">Actualizar</a></td>
+                <td>
+                    <form action="{{ url_for('borrar_tarea', id=tarea['id']) }}" method="POST" style="display:inline;">
+                    <button class="btn btn-danger" type="submit">Borrar</button>
+                </form>
+                </td>
+                </tr>
+            {% endfor %}
+            </table>
+        {% else %}
+             <p>NO Hay tareas</p>
+        {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}
